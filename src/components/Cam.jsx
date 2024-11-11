@@ -23,6 +23,7 @@ const NextPage = ({ onClick }) => (
 const WebcamDisplay = ({ setUserImage }) => {
   const webcamRef = useRef(null);
   const [countdown, setCountdown] = useState(null);
+  const [isCaptured, setIsCaptured] = useState(false);
 
   const capture = () => {
     let count = 3;
@@ -55,6 +56,7 @@ const WebcamDisplay = ({ setUserImage }) => {
           // 반전된 이미지 추출
           const flippedImageSrc = canvas.toDataURL('image/jpeg');
           setUserImage(flippedImageSrc);
+          setIsCaptured(true); // 캡처 완료 후 비디오를 숨기고 이미지 표시
           setCountdown(null);
         };
       }
@@ -62,11 +64,22 @@ const WebcamDisplay = ({ setUserImage }) => {
   };
 
   return (
-    <Container>
-      {countdown !== null && <CountdownOverlay seconds={countdown} />}
-      <StyledWebcam ref={webcamRef} screenshotFormat='image/jpeg' />
-      <CaptureButton onClick={capture} />
-    </Container>
+    <>
+      <Container>
+        {countdown !== null && <CountdownOverlay seconds={countdown} />}
+        {!isCaptured && (
+          <StyledWebcam ref={webcamRef} screenshotFormat='image/jpeg' />
+        )}
+        {isCaptured && (
+          <img
+            src={webcamRef.current.getScreenshot()}
+            alt='Captured'
+            style={{ width: '100%', height: 'auto' }}
+          />
+        )}
+        <CaptureButton onClick={capture} />
+      </Container>
+    </>
   );
 };
 
@@ -81,19 +94,18 @@ const ImageDisplay = ({ imageSrc, onRecapture, handleNext }) => (
 //컴포넌트
 export default function Cam({ handleNext, userImage, setUserImage }) {
   return (
-    <Wrapper>
-      <MainContainer>
-        {userImage ? (
-          <ImageDisplay
-            imageSrc={userImage}
-            handleNext={handleNext}
-            onRecapture={() => setUserImage(null)}
-          />
-        ) : (
-          <WebcamDisplay setUserImage={setUserImage} />
-        )}
-      </MainContainer>
-    </Wrapper>
+    <MainContainer>
+      <h1 style={{ margin: '50px 0' }}> 사진 촬영 해주세요</h1>
+      {userImage ? (
+        <ImageDisplay
+          imageSrc={userImage}
+          handleNext={handleNext}
+          onRecapture={() => setUserImage(null)}
+        />
+      ) : (
+        <WebcamDisplay setUserImage={setUserImage} />
+      )}
+    </MainContainer>
   );
 }
 
@@ -144,15 +156,8 @@ const Container = styled.div`
 
 const StyledWebcam = styled(Webcam)`
   width: 100%;
-  height: 100vh;
+  height: auto;
   transform: scaleX(-1);
-`;
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  box-shadow: inset 0px 0 20px red;
 `;
 
 const MainContainer = styled.div`
@@ -162,4 +167,5 @@ const MainContainer = styled.div`
   justify-content: center;
   height: 100vh;
   margin: 0;
+  box-shadow: inset 0px 0 20px red;
 `;
