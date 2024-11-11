@@ -70,13 +70,9 @@ const WebcamDisplay = ({ setUserImage }) => {
         {!isCaptured && (
           <StyledWebcam ref={webcamRef} screenshotFormat='image/jpeg' />
         )}
-        {isCaptured && (
-          <img
-            src={webcamRef.current.getScreenshot()}
-            alt='Captured'
-            style={{ width: '100%', height: 'auto' }}
-          />
-        )}
+        {/* {isCaptured && (
+          <img src={webcamRef.current.getScreenshot()} alt='Captured' />
+        )} */}
         <CaptureButton onClick={capture} />
       </Container>
     </>
@@ -85,7 +81,7 @@ const WebcamDisplay = ({ setUserImage }) => {
 
 const ImageDisplay = ({ imageSrc, onRecapture, handleNext }) => (
   <Container>
-    <img src={imageSrc} alt='Captured' />
+    <StlyedImg src={imageSrc} alt='Captured' />
     <RecaptureButton onClick={onRecapture} />
     <NextPage onClick={handleNext} />
   </Container>
@@ -94,18 +90,19 @@ const ImageDisplay = ({ imageSrc, onRecapture, handleNext }) => (
 //컴포넌트
 export default function Cam({ handleNext, userImage, setUserImage }) {
   return (
-    <MainContainer>
-      <h1 style={{ margin: '50px 0' }}> 사진 촬영 해주세요</h1>
-      {userImage ? (
-        <ImageDisplay
-          imageSrc={userImage}
-          handleNext={handleNext}
-          onRecapture={() => setUserImage(null)}
-        />
-      ) : (
-        <WebcamDisplay setUserImage={setUserImage} />
-      )}
-    </MainContainer>
+    <Wrapper>
+      <MainContainer>
+        {userImage ? (
+          <ImageDisplay
+            imageSrc={userImage}
+            handleNext={handleNext}
+            onRecapture={() => setUserImage(null)}
+          />
+        ) : (
+          <WebcamDisplay setUserImage={setUserImage} />
+        )}
+      </MainContainer>
+    </Wrapper>
   );
 }
 
@@ -156,8 +153,19 @@ const Container = styled.div`
 
 const StyledWebcam = styled(Webcam)`
   width: 100%;
-  height: auto;
+  max-height: 90vh;
   transform: scaleX(-1);
+`;
+
+const StlyedImg = styled.img`
+  width: auto;
+  max-height: 90vh;
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  margin: 0;
 `;
 
 const MainContainer = styled.div`
@@ -167,5 +175,4 @@ const MainContainer = styled.div`
   justify-content: center;
   height: 100vh;
   margin: 0;
-  box-shadow: inset 0px 0 20px red;
 `;
