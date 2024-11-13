@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import CardFront from '../assets/cardFront.png';
 
 function IdCard({ userInfo, userImage, onLoad, onClick }) {
   const canvasRef = useRef(null);
@@ -10,7 +11,7 @@ function IdCard({ userInfo, userImage, onLoad, onClick }) {
 
     // 이미지 로드
     const cardImage = new Image();
-    cardImage.src = '../src/assets/cardFront.png'; // 업로드된 이미지 경로 설정
+    cardImage.src = CardFront; // 업로드된 이미지 경로 설정
 
     cardImage.onload = () => {
       // 캔버스 초기화
