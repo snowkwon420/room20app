@@ -10,7 +10,7 @@ function IdCard({ userInfo, userImage, onLoad, onClick }) {
 
     // 이미지 로드
     const cardImage = new Image();
-    cardImage.src = '../src/assets/card front.png'; // 업로드된 이미지 경로 설정
+    cardImage.src = '../src/assets/cardFront.png'; // 업로드된 이미지 경로 설정
 
     cardImage.onload = () => {
       // 캔버스 초기화
