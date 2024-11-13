@@ -154,11 +154,12 @@ const Container = styled.div`
 const StyledWebcam = styled(Webcam)`
   width: 100%;
   max-height: 90vh;
+  object-fit: cover; /* 비율을 유지하며 컨테이너를 채움 */
   transform: scaleX(-1);
 `;
 
 const StlyedImg = styled.img`
-  width: auto;
+  width: auto%;
   max-height: 90vh;
 `;
 

@@ -25,8 +25,7 @@ function App() {
     formRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleUserInfoSubmit = (info) => {
-    setUserInfo(info);
+  const handleUserInfoSubmit = () => {
     // 유저 정보 입력 후 스크롤
     cameraRef.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -66,12 +65,11 @@ function App() {
 
       {/* 유저 정보 입력 섹션 */}
       <section ref={formRef}>
-        <UserInfo onClick={handleUserInfoSubmit} />
+        <UserInfo onClick={handleUserInfoSubmit} setUserInfo={setUserInfo} />
       </section>
 
       {/* 사진 촬영 섹션 */}
       <section ref={cameraRef}>
-        {/* {userInfo && <CameraComponent onCapture={handlePhotoCapture} />} */}
         <Cam
           handleNext={handleNext}
           userImage={userImage}
@@ -81,9 +79,9 @@ function App() {
 
       {/* 명함 생성 섹션 */}
       <section ref={cardRef}>
-        {userImage && (
+        {userImage && userInfo && (
           <IdCard
-            userInfo={userInfo}
+            userInfo={userInfo.user}
             userImage={userImage}
             onLoad={handleCardLoad}
             onClick={handleReset}
