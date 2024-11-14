@@ -3,7 +3,6 @@ import UserInfo from './components/UserInfo';
 import Cam from './components/Cam';
 import IdCard from './components/IdCard';
 import Start from './components/Start';
-import ShowCard from './components/ShowCard';
 
 function App() {
   const [newCardURL, setNewCardURL] = useState(null);
