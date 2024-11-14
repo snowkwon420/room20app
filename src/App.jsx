@@ -3,8 +3,11 @@ import UserInfo from './components/UserInfo';
 import Cam from './components/Cam';
 import IdCard from './components/IdCard';
 import Start from './components/Start';
+import ShowCard from './components/ShowCard';
 
 function App() {
+  const [newCardURL, setNewCardURL] = useState(null);
+
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'; // 브라우저의 기본 스크롤 복원 끄기
@@ -85,6 +88,8 @@ function App() {
             userImage={userImage}
             onLoad={handleCardLoad}
             onClick={handleReset}
+            setNewCardURL={setNewCardURL}
+            newCardURL={newCardURL}
           />
         )}
         {isCardReady && (
