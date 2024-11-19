@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
+import background from '../assets/campage2.png';
 
 const CountdownOverlay = ({ seconds }) => <Overlay>{seconds}</Overlay>;
 
@@ -9,14 +10,14 @@ const CaptureButton = ({ onClick }) => (
 );
 
 const RecaptureButton = ({ onClick }) => (
-  <StyledButton onClick={onClick} bgColor={'orange'} left={'40%'}>
-    Recapture
+  <StyledButton onClick={onClick} left={'40%'}>
+    Recapture.
   </StyledButton>
 );
 
 const NextPage = ({ onClick }) => (
-  <StyledButton left={'60%'} bgColor={'hotpink'} onClick={onClick}>
-    다음
+  <StyledButton left={'60%'} onClick={onClick}>
+    Next.
   </StyledButton>
 );
 
@@ -122,51 +123,56 @@ const Overlay = styled.div`
 `;
 
 const StyledButton = styled.button`
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  font-family: 'Press Start 2P', sans-serif;
   position: absolute; /* 버튼을 Webcam 위에 위치시킵니다 */
-  bottom: 20px; /* 카메라 하단에 배치 */
+  bottom: 8vh; /* 카메라 하단에 배치 */
   left: ${(props) => props.left || '50%'};
   transform: translateX(-50%); /* 가운데 정렬 */
   padding: 0.5rem 1rem;
-  background-color: ${(props) => props.bgColor || '#3b82f6'};
-  color: white;
-  border-radius: 9999px;
+  background-color: ${(props) => props.bgColor || 'white'};
+  color: #fa3088;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
   &:hover {
-    background-color: #2563eb; /* 호버 시 색상 */
+    background-color: #fa3088; /* 호버 시 색상 */
+    color: white;
   }
 `;
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  /* margin-top: 10vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: relative;
 `;
 
 const StyledWebcam = styled(Webcam)`
-  width: 100%;
-  max-height: 90vh;
-  object-fit: cover; /* 비율을 유지하며 컨테이너를 채움 */
+  width: 90vh;
+  object-fit: cover;
   transform: scaleX(-1);
 `;
 
 const StlyedImg = styled.img`
-  width: auto%;
-  max-height: 90vh;
+  width: 90vh;
 `;
 
 const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0;
+  background-image: url(${background});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; /* 반복 방지 */
 `;
 
 const MainContainer = styled.div`

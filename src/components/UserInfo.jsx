@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import background from '../assets/bkimg2.png';
+import background from '../assets/infopage4.png';
 
 const UserInfo = ({ onClick, setUserInfo }) => {
   const [formData, setFormData] = useState({
     name: '',
-    number: '',
-    email: '',
+    birthday: '',
+    hometown: '',
+    igid: '',
     etc: '',
   });
 
@@ -32,37 +33,43 @@ const UserInfo = ({ onClick, setUserInfo }) => {
 
   return (
     <Wrapper>
-      <h1>정보 입력</h1>
       <form onSubmit={handleSubmit}>
-        <input
+        <StyledInput
           type='text'
           name='name'
-          placeholder='이름'
+          placeholder='name'
           value={formData.name}
           onChange={handleChange}
         />
-        <input
+        <StyledInput
           type='text'
-          name='number'
-          placeholder='전화번호'
-          value={formData.number}
+          name='birthday'
+          placeholder='Date of birth'
+          value={formData.birthday}
           onChange={handleChange}
         />
-        <input
-          type='email'
-          name='email'
-          placeholder='이메일'
-          value={formData.email}
+        <StyledInput
+          type='text'
+          name='hometown'
+          placeholder='Place of issue'
+          value={formData.hometown}
           onChange={handleChange}
         />
-        <input
+        <StyledInput
+          type='text'
+          name='igid'
+          placeholder='IG account'
+          value={formData.igid}
+          onChange={handleChange}
+        />
+        <StyledInput
           type='text'
           name='etc'
-          placeholder='기타 정보'
+          placeholder='etc'
           value={formData.etc}
           onChange={handleChange}
         />
-        <button type='submit'>다음</button>
+        <button type='submit'>Next.</button>
       </form>
     </Wrapper>
   );
@@ -71,40 +78,33 @@ const UserInfo = ({ onClick, setUserInfo }) => {
 const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
-  box-shadow: inset 0px 0 10px blue;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
 
   form {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
-  }
-
-  input {
-    width: 300px;
-    height: 40px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    margin-top: 10vh;
   }
 
   button {
-    width: 150px;
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    font-family: 'Press Start 2P', sans-serif;
+    color: #fa3088;
+    background-color: white;
+    width: 100px;
     height: 40px;
-    background-color: #3b82f6;
-    color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-
     &:hover {
-      background-color: #2563eb;
+      background-color: #fa3088;
+      color: white;
     }
   }
 
@@ -112,6 +112,21 @@ const Wrapper = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+`;
+
+// const StlyedButton = styled.button`
+
+// `;
+
+const StyledInput = styled.input`
+  width: 256px;
+  height: 50px;
+  border-radius: 20px;
+  border: #fa3088 solid 2px;
+  outline: none;
+  ::placeholder {
+    font: helvetica;
+  }
 `;
 
 export default UserInfo;

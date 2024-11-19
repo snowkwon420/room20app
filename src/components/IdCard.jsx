@@ -1,14 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import CardFront from '../assets/cardFront.png';
+import CardFront from '../assets/cardFront2.jpeg';
 import './ShowCard.css';
+import background from '../assets/cardpage.png';
+import CardBack from '../assets/cardBack.png';
 
 function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
   const canvasRef = useRef(document.createElement('canvas')); // canvas 요소를 직접 생성
   const containerRef = useRef(null);
+  const [isFlipped, setIsFlipped] = useState(false); // 카드 플립 상태 관리
 
   useEffect(() => {
-    console.log('newCardURL:', newCardURL);
     if (newCardURL) {
       atvImg(); // newCardURL이 변경될 때마다 실행
     }
@@ -51,12 +53,14 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
       layersHTML.className = 'atvImg-layers';
 
       for (let i = 0; i < totalLayerElems; i++) {
-        const layer = d.createElement('div');
+        const layer = d.createElement('div'),
+          imgSrc = layerElems[i].getAttribute('data-img');
+
         layer.className = 'atvImg-rendered-layer';
         layer.setAttribute('data-layer', i);
-        layer.style.backgroundImage = `url(${newCardURL})`;
+        layer.style.backgroundImage = layer.style.backgroundImage =
+          'url(' + imgSrc + ')';
         layersHTML.appendChild(layer);
-
         layers.push(layer);
       }
 
@@ -228,7 +232,7 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
             sourceY,
             sourceWidth,
             sourceHeight,
-            40,
+            50,
             98,
             targetWidth,
             targetHeight
@@ -236,33 +240,41 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
 
           addUserInfoToCanvas(context);
           setNewCardURL(canvas.toDataURL('image/png'));
-          console.log('newURL:' + newCardURL);
           onLoad();
         };
       } else {
         addUserInfoToCanvas(context);
         setNewCardURL(canvas.toDataURL('image/png'));
-        console.log('newURL:' + newCardURL);
         onLoad();
       }
     };
 
     function addUserInfoToCanvas(ctx) {
-      ctx.font = '14px Arial';
+      ctx.font = '20px Helvatica';
       ctx.fillStyle = '#000';
-      ctx.fillText(`${userInfo.name}`, 320, 155);
-      ctx.fillText(`${userInfo.number}`, 350, 195);
-      ctx.fillText(`${userInfo.email}`, 350, 230);
-      ctx.fillText(`${userInfo.etc}`, 350, 270);
+      ctx.fillText(`${userInfo.name}`, 340, 160);
+      ctx.fillText(`${userInfo.birthday}`, 360, 195);
+      ctx.fillText(`${userInfo.hometown}`, 360, 235);
+      ctx.fillText(`${userInfo.igid}`, 360, 270);
+      ctx.fillText(`${userInfo.etc}`, 350, 310);
     }
   }, [userInfo, userImage, onLoad, setNewCardURL]);
+
+  const handleCardClick = () => {
+    setIsFlipped(!isFlipped); // 클릭 시 플립 상태를 토글
+  };
 
   return (
     <Wrapper>
       {newCardURL ? (
-        <div className='container' ref={containerRef}>
-          <div className='cover atvImg'>
-            <div className='atvImg-layer'></div>
+        <div
+          className={`container `}
+          ref={containerRef}
+          onClick={handleCardClick}
+        >
+          <div className='cover atvImg back'>
+            <div className='atvImg-layer' data-img={newCardURL}></div>
+            {/* <div className='atvImg-layer' data-img={CardBack}></div> */}
           </div>
         </div>
       ) : (
@@ -281,7 +293,10 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: pink;
+  background-image: url(${background});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; /* 반복 방지 */
 `;
 
 export default IdCard;

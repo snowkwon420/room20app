@@ -1,14 +1,11 @@
 import styled from 'styled-components';
-import background from '../assets/startImage.png';
+import background from '../assets/startpage.png';
+import startIcon from '../assets/room203d.gif';
 
 const Start = () => {
   return (
     <Wrapper>
-      <div>
-        <h1>Room 20</h1>
-      </div>
-      <p>이곳은 시작페이지 예시 화면</p>
-      <p>시작페이지 디자인 만들어서 보내주면 수정가능</p>
+      <img src={startIcon} alt='Animated GIF' style={{ width: '1000px' }} />
     </Wrapper>
   );
 };
@@ -20,7 +17,7 @@ const Wrapper = styled.div`
 
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   gap: 20px;
 
@@ -37,7 +34,7 @@ const Wrapper = styled.div`
 
   background-image: url(${background});
   background-size: cover;
-  /* background-position: center; 이미지 위치 조정 */
+  background-position: center;
   background-repeat: no-repeat; /* 반복 방지 */
 `;
 
