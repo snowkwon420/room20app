@@ -78,6 +78,7 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
       const shineHTML = d.createElement('div');
       const shadowHTML = d.createElement('div');
       const layersHTML = d.createElement('div');
+      const backHTML = d.createElement('div'); // 뒷면 생성
       const layers = [];
 
       thisImg.id = 'atvImg__' + l;
@@ -85,6 +86,7 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
       shineHTML.className = 'atvImg-shine';
       shadowHTML.className = 'atvImg-shadow';
       layersHTML.className = 'atvImg-layers';
+      backHTML.className = 'atvImg-back'; // 뒷면 클래스 지정
 
       for (let i = 0; i < totalLayerElems; i++) {
         const layer = d.createElement('div'),
@@ -101,7 +103,9 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
       containerHTML.appendChild(shadowHTML);
       containerHTML.appendChild(layersHTML);
       containerHTML.appendChild(shineHTML);
+      containerHTML.appendChild(backHTML);
       thisImg.appendChild(containerHTML);
+      containerHTML.classList.toggle('flipped');
 
       const w =
         thisImg.clientWidth || thisImg.offsetWidth || thisImg.scrollWidth;
