@@ -290,7 +290,7 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
       ctx.fillText(`${userInfo.birthday}`, 360, 195);
       ctx.fillText(`${userInfo.hometown}`, 360, 235);
       ctx.fillText(`${userInfo.igid}`, 360, 270);
-      ctx.fillText(`${userInfo.etc}`, 350, 310);
+      ctx.fillText(`${userInfo.etc}`, 330, 310);
     }
   }, [userInfo, userImage, onLoad, setNewCardURL]);
 

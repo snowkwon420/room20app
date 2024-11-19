@@ -68,6 +68,7 @@ const UserInfo = ({ onClick, setUserInfo }) => {
           placeholder='etc'
           value={formData.etc}
           onChange={handleChange}
+          maxLength={18}
         />
         <button type='submit'>Next.</button>
       </form>
