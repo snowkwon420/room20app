@@ -26,12 +26,17 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
   }, [newCardURL]);
 
   const uploadImageToServer = async (base64Image) => {
+    const formData = new FormData();
+    formData.append('file', base64Image);
+    formData.append('upload_preset', 'room20');
     try {
-      const response = await fetch('/api/uploadImage', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ base64Image }),
-      });
+      const response = await fetch(
+        'https://api.cloudinary.com/v1_1/djvcrv1dp/image/upload',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
@@ -41,7 +46,7 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
       }
     } catch (error) {
       console.error('이미지 업로드 오류:', error);
-      return null;
+      return 'www.naver.com';
     }
   };
 
@@ -309,10 +314,11 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
             <QRCodeCanvas
               id='qr-gen'
               value={httpImageUrl}
-              size={100}
+              size={150}
               level={'H'}
               includeMargin={false} //QR 테두리 여부
               fgColor={'#111111'} //QR색
+              style={{ marginTop: '20px' }}
             />
           </div>
         ) : (
