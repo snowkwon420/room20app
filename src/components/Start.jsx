@@ -5,7 +5,7 @@ import startIcon from '../assets/room203d.gif';
 const Start = () => {
   return (
     <Wrapper>
-      <img src={startIcon} alt='Animated GIF' style={{ width: '1000px' }} />
+      <img src={startIcon} alt='Animated GIF' style={{ minWidth: '800px' }} />
     </Wrapper>
   );
 };

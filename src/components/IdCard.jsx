@@ -4,17 +4,46 @@ import CardFront from '../assets/cardFront2.jpeg';
 import './ShowCard.css';
 import background from '../assets/cardpage.png';
 import CardBack from '../assets/cardBack.png';
+import { QRCodeCanvas } from 'qrcode.react';
 
 function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
   const canvasRef = useRef(document.createElement('canvas')); // canvas 요소를 직접 생성
   const containerRef = useRef(null);
   const [isFlipped, setIsFlipped] = useState(false); // 카드 플립 상태 관리
+  const [httpImageUrl, setHttpImageUrl] = useState(null);
 
   useEffect(() => {
     if (newCardURL) {
       atvImg(); // newCardURL이 변경될 때마다 실행
+      uploadImageToServer(newCardURL)
+        .then((url) => {
+          setHttpImageUrl(url); // 업로드된 HTTP URL 설정
+        })
+        .catch((error) => {
+          console.error('이미지 업로드 실패:', error);
+        });
     }
   }, [newCardURL]);
+
+  const uploadImageToServer = async (base64Image) => {
+    try {
+      const response = await fetch('/api/uploadImage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ base64Image }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        return data.url; // 업로드된 이미지의 HTTP URL 반환
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (error) {
+      console.error('이미지 업로드 오류:', error);
+      return null;
+    }
+  };
 
   const atvImg = () => {
     const d = document;
@@ -265,23 +294,34 @@ function IdCard({ userInfo, userImage, onLoad, setNewCardURL, newCardURL }) {
   };
 
   return (
-    <Wrapper>
-      {newCardURL ? (
-        <div
-          className={`container `}
-          ref={containerRef}
-          onClick={handleCardClick}
-        >
-          <div className='cover atvImg back'>
-            <div className='atvImg-layer' data-img={newCardURL}></div>
-            {/* <div className='atvImg-layer' data-img={CardBack}></div> */}
+    <>
+      <Wrapper>
+        {newCardURL ? (
+          <div
+            className={`container `}
+            ref={containerRef}
+            onClick={handleCardClick}
+          >
+            <div className='cover atvImg back'>
+              <div className='atvImg-layer' data-img={newCardURL}></div>
+              {/* <div className='atvImg-layer' data-img={CardBack}></div> */}
+            </div>
+            <QRCodeCanvas
+              id='qr-gen'
+              value={httpImageUrl}
+              size={100}
+              level={'H'}
+              includeMargin={false} //QR 테두리 여부
+              fgColor={'#111111'} //QR색
+            />
           </div>
-        </div>
-      ) : (
-        <p>loading</p>
-      )}
-      {/* 생성된 이미지 표시 */}
-    </Wrapper>
+        ) : (
+          <p>loading</p>
+        )}
+        {/* 생성된 이미지 표시 */}
+      </Wrapper>
+      {/* <Router /> */}
+    </>
   );
 }
 

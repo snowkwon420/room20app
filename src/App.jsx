@@ -6,6 +6,7 @@ import Start from './components/Start';
 
 function App() {
   const [newCardURL, setNewCardURL] = useState(null);
+  const [isCardReady, setIsCardReady] = useState(null);
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -16,7 +17,6 @@ function App() {
 
   const [userInfo, setUserInfo] = useState(null);
   const [userImage, setUserImage] = useState(null);
-  const [isCardReady, setIsCardReady] = useState(false);
 
   const startRef = useRef(null);
   const formRef = useRef(null);
@@ -35,7 +35,6 @@ function App() {
   const handleNext = () => {
     // 사진 촬영 후 스크롤
     cardRef.current.scrollIntoView({ behavior: 'smooth' });
-    console.log(userImage);
   };
 
   const handleReset = () => {
@@ -46,16 +45,6 @@ function App() {
 
   const handleCardLoad = () => {
     setIsCardReady(true);
-  };
-
-  const downloadImage = () => {
-    const canvas = document.querySelector('canvas'); // Canvas 요소를 선택
-    if (canvas) {
-      const link = document.createElement('a');
-      link.download = 'business-card.png'; // 다운로드할 파일 이름
-      link.href = canvas.toDataURL('image/png'); // Canvas 내용을 Base64 데이터 URL로 가져오기
-      link.click(); // 다운로드 링크 클릭
-    }
   };
 
   return (
@@ -90,9 +79,6 @@ function App() {
             setNewCardURL={setNewCardURL}
             newCardURL={newCardURL}
           />
-        )}
-        {isCardReady && (
-          <button onClick={downloadImage}>Download Business Card</button>
         )}
       </section>
     </div>
